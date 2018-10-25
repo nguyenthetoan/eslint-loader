@@ -5,6 +5,8 @@ var loaderUtils = require("loader-utils");
 var objectHash = require("object-hash");
 var createCache = require("loader-fs-cache");
 
+var CLIEngine = require("eslint").CLIEngine;
+
 var pkg = require("./package.json");
 
 var cache = createCache("eslint-loader");
@@ -203,7 +205,7 @@ module.exports = function(input, map) {
   var configHash = objectHash(config);
   if (!engines[configHash]) {
     var eslint = require(config.eslintPath);
-    engines[configHash] = new eslint.CLIEngine(config);
+    engines[configHash] = new CLIEngine(eslint);
   }
 
   webpack.cacheable();
